@@ -1,0 +1,22 @@
+server:
+  port: 8082
+  error:
+    include-message: always
+#Configuracion de spring
+spring:
+  #Configuracion de migracion
+  flyway:
+    enabled: true
+    baselineVersion: 1
+    locations:
+      classpath: db/migration
+    sqlMigrationSuffixes: .sql
+    baselineOnMigrate: true
+    sqlMigrationPrefix: V
+    schemas: public
+
+  datasource:
+    url: jdbc:postgresql://kala.db.elephantsql.com:5432/zanmkneo?socketTimeout=3
+    username: zanmkneo
+    password: 1JUapxL4LkafhZA8V6dVo3nQX151ZuK6
+    driverClassName: org.postgresql.Driver
