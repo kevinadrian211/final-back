@@ -47,11 +47,24 @@ class SystemController {
         return ResponseEntity.ok("System deleted successfully")
     }
 
-    @PostMapping("/{id}/sensor")
-    fun updateSensorData(@PathVariable id: Long, @RequestParam value: Double, @RequestParam timestamp: String): ResponseEntity<String> {
+    @PostMapping("/sensor")
+    fun updateSensorData(@RequestBody sensorData: Map<String, Any>): ResponseEntity<String> {
+        println("Received sensorData: $sensorData") // Registro de los datos recibidos
+
+        val systemId = (sensorData["systemId"] as? Number)?.toLong() ?: return ResponseEntity.badRequest().body("Missing or invalid 'systemId'")
+        val value = (sensorData["intensity"] as? Number)?.toDouble() ?: return ResponseEntity.badRequest().body("Missing or invalid 'intensity'")
+        val timestamp = sensorData["timestamp"]?.toString() ?: return ResponseEntity.badRequest().body("Missing 'timestamp'")
+
+        println("systemId: $systemId, intensity: $value, timestamp: $timestamp") // Registro de los datos procesados
+
         val formatter = DateTimeFormatter.ISO_DATE_TIME
         val localDateTime = LocalDateTime.parse(timestamp, formatter)
-        systemService.updateSensorData(id, value, localDateTime)
+
+        println("localDateTime: $localDateTime") // Registro de la conversión del tiempo
+
+        // Aquí asumo que systemService.updateSensorData está correctamente implementado.
+        systemService.updateSensorData(systemId, value, localDateTime)
+
         return ResponseEntity.ok("Sensor data updated successfully")
     }
 
