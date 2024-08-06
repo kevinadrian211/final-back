@@ -52,12 +52,13 @@ class SystemService {
         system?.let {
             it.stated = false
             it.intensity = 0
-            it.ontime = null  // Desactiva la hora de encendido
-            it.offtime = null  // Desactiva la hora de apagado
+            it.ontime = LocalTime.MIDNIGHT  // O cualquier otro valor válido
+            it.offtime = LocalTime.MIDNIGHT // O cualquier otro valor válido
             return systemRepository.save(it)
         }
         return null
     }
+
 
 
     fun updateSystemTime(id: Long, ontime: LocalTime, offtime: LocalTime): SystemEntity? {
